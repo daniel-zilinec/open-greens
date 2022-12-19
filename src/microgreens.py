@@ -12,7 +12,7 @@ class Microgreens:
         self.light_pin = Pin(0, Pin.OUT)
         self.fan_pwm = PWM(Pin(4))
         self.fan_pwm.freq(25000)
-        self.soil_adc = ADC(Pin(34))
+        self.soil_adc = ADC(Pin(34), atten=ADC.ATTN_11DB)
         self.pump(OFF)
         self.light(0)
         self.fan(0)
