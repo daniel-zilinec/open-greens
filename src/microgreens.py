@@ -1,4 +1,4 @@
-from machine import Pin, PWM
+from machine import Pin, PWM, ADC
 import time
 
 ON = 1
@@ -12,8 +12,9 @@ class Microgreens:
         self.light_pin = Pin(0, Pin.OUT)
         self.fan_pwm = PWM(Pin(4))
         self.fan_pwm.freq(25000)
+        self.soil_adc = ADC(Pin(34))
         self.pump(OFF)
-        self.lingth(0)
+        self.light(0)
         self.fan(0)
         
     def pump(self, value):
@@ -33,6 +34,9 @@ class Microgreens:
         if value > 1023:
             value = 1023
         self.fan_pwm.duty(int(value))
+        
+    def get_soil_moist(self):
+        return self.soil_adc.read_uv() / 1000000
 
 
     def pump_time(self, duration):
