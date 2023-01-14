@@ -36,7 +36,18 @@ class Microgreens:
         self.fan_pwm.duty(int(value))
         
     def get_soil_moist(self):
-        return self.soil_adc.read_uv() / 1000000
+        iterations = 20
+        sum = 0.0
+        for i in range(iterations):
+            adc = self.soil_adc.read_uv() / 1000000
+            sum += adc
+            # print(f"ADC: {adc}")
+            time.sleep(0.1)
+            
+        result = sum/iterations
+        # print(f"Sum: {sum}, iterations: {iterations}, result: {result}")
+        return result
+        #return self.soil_adc.read_uv() / 1000000
 
 
     def pump_time(self, duration):
